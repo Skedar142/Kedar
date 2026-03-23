@@ -38,6 +38,28 @@ A minimalist Conky desktop widget for Ubuntu/Debian-based Linux systems, inspire
 
 ---
 
+## Ubuntu Packages
+
+The table below lists every `apt` package involved. The **installer handles all of them automatically** — this section is here so you know exactly what will be installed on your system.
+
+| Package | `apt` name | Why it's needed | Auto-installed? |
+|---|---|---|---|
+| Conky | `conky` | The widget engine | ✅ yes |
+| Font utilities | `fontconfig` | Provides `fc-list` / `fc-cache` for font detection | ✅ yes |
+| ZIP extractor | `unzip` | Extracts the JetBrains Mono font archive | ✅ yes |
+| JetBrains Mono *(apt fallback)* | `fonts-jetbrains-mono` | Font used by the widget — installed via apt if `wget` is unavailable | ✅ yes (fallback) |
+| Now Playing support | `playerctl` | Reads the current track from Spotify, VLC, etc. | ⬜ optional |
+
+**To pre-install everything in one command** (including the optional `playerctl`):
+
+```bash
+sudo apt update && sudo apt install -y conky fontconfig unzip playerctl
+```
+
+> **Note:** `wget` is also used by the installer to download the JetBrains Mono font directly from GitHub. It ships pre-installed on Ubuntu desktop; if it is missing, the installer falls back to `sudo apt install fonts-jetbrains-mono` automatically.
+
+---
+
 ## Installation
 
 ### Step 1 — Clone the repository
