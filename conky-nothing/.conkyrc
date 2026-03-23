@@ -8,7 +8,7 @@ conky.config = {
     gap_y = 50,
     minimum_width = 280,
     maximum_width = 280,
-    minimum_height = 660,
+    minimum_height = 600,
 
     -- Background and border
     own_window = true,
@@ -16,9 +16,9 @@ conky.config = {
     own_window_type = 'desktop',
     own_window_transparent = true,
     own_window_argb_visual = true,
-    own_window_argb_value = 230,
+    own_window_argb_value = 180,
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
-    own_window_colour = '000000',
+    own_window_colour = '0a0a0a',
 
     -- No border
     draw_borders = false,
@@ -30,22 +30,22 @@ conky.config = {
     no_buffers = true,
 
     -- Update interval in seconds
-    update_interval = 1,
+    update_interval = 2,
 
     -- Font settings
     use_xft = true,
-    font = 'JetBrains Mono:size=9',
+    font = 'JetBrains Mono:size=10',
     xftalpha = 1,
 
-    -- Text colors (monochromatic Nothing Phone palette)
-    default_color = 'F5F5F5',
+    -- Text colors (monochromatic)
+    default_color = 'EEEEEE',
     default_shade_color = '000000',
     default_outline_color = '000000',
-    color0 = 'F5F5F5',  -- primary text
-    color1 = '888888',  -- secondary / label text
-    color2 = '333333',  -- dim text / separators
-    color3 = 'E0E0E0',  -- accent / progress bars (fill)
-    color4 = '222222',  -- bar background reference
+    color0 = 'FFFFFF',  -- primary text
+    color1 = 'AAAAAA',  -- secondary text
+    color2 = '555555',  -- dim text / separators
+    color3 = 'CCCCCC',  -- accent / progress bars (fill)
+    color4 = '333333',  -- bar background reference
 
     -- Shading and outline
     draw_shades = false,
@@ -71,36 +71,53 @@ conky.config = {
 
 conky.text = [[
 ${lua_parse header}
-${voffset 28}${font JetBrains Mono:size=38:bold}${color0}${alignc}${time %H:%M}${font}
-${font JetBrains Mono:size=10}${color1}${alignc}${time %A, %B %d}${font}
-${voffset 8}${color2}${hr 1}${color}
+${font JetBrains Mono:size=36:bold}${color0}${time %H:%M}${font}
+${font JetBrains Mono:size=11}${color1}${time %A, %B %d}${font}
+${color2}${hr 1}${color}
 
-${voffset 2}${font JetBrains Mono:size=8:bold}${color1}SYSTEM${font}
-${voffset 2}${font JetBrains Mono:size=9}${color1}CPU   ${color0}${cpu cpu0}%${color}
-${color3}${cpubar 5,260 cpu0}${color}
-${font JetBrains Mono:size=9}${color1}MEM   ${color0}${memperc}%  ${color1}${mem} / ${memmax}${color}
-${color3}${membar 5,260}${color}
-${font JetBrains Mono:size=9}${color1}DISK  ${color0}${fs_used_perc /}%  ${color1}${fs_used /} / ${fs_size /}${color}
-${color3}${fs_bar 5,260 /}${color}
+${font JetBrains Mono:size=9:bold}${color1}SYSTEM${font}
+${color2}${hr 1}${color}
 
-${voffset 4}${font JetBrains Mono:size=8:bold}${color1}CPU CORES${font}
-${voffset 2}${font JetBrains Mono:size=8}${color1}Core 1 ${color0}${cpu cpu1}%  ${color1}Core 2 ${color0}${cpu cpu2}%${color}
-${color3}${cpubar 4,124 cpu1}${color}  ${color3}${cpubar 4,124 cpu2}${color}
-${font JetBrains Mono:size=8}${color1}Core 3 ${color0}${cpu cpu3}%  ${color1}Core 4 ${color0}${cpu cpu4}%${color}
-${color3}${cpubar 4,124 cpu3}${color}  ${color3}${cpubar 4,124 cpu4}${color}
+${font JetBrains Mono:size=9}${color1}CPU${font}   ${color0}${cpu cpu0}%${color}
+${color3}${cpubar 6,280 cpu0}${color}
 
-${voffset 4}${font JetBrains Mono:size=8:bold}${color1}BATTERY${font}
-${voffset 2}${font JetBrains Mono:size=9}${color0}${battery_percent BAT0}%  ${color1}${battery_time BAT0}  ${battery BAT0}${color}
-${color3}${battery_bar 5,260 BAT0}${color}
+${font JetBrains Mono:size=9}${color1}MEM${font}   ${color0}${memperc}%  ${color1}${mem} / ${memmax}${color}
+${color3}${membar 6,280}${color}
 
-${voffset 4}${font JetBrains Mono:size=8:bold}${color1}NETWORK${font}
-${voffset 2}${font JetBrains Mono:size=9}${color1}UP ${color0}${upspeed wlan0}   ${color1}DOWN ${color0}${downspeed wlan0}${color}
-${font JetBrains Mono:size=8}${color1}IP  ${color0}${addr wlan0}${color}
+${font JetBrains Mono:size=9}${color1}DISK${font}  ${color0}${fs_used_perc /}%  ${color1}${fs_used /} / ${fs_size /}${color}
+${color3}${fs_bar 6,280 /}${color}
 
-${voffset 4}${font JetBrains Mono:size=8:bold}${color1}NOW PLAYING${font}
-${voffset 2}${font JetBrains Mono:size=9}${color0}${exec playerctl metadata title 2>/dev/null | cut -c1-30 || echo "Nothing playing"}${color}
-${font JetBrains Mono:size=8}${color1}${exec playerctl metadata artist 2>/dev/null | cut -c1-30 || echo "--"}${color}
+${color2}${hr 1}${color}
+${font JetBrains Mono:size=9:bold}${color1}CPU CORES${font}
+${color2}${hr 1}${color}
+
+${font JetBrains Mono:size=9}${color1}Core 1${font}  ${color0}${cpu cpu1}%${color1}  Core 2${font}  ${color0}${cpu cpu2}%${color}
+${color3}${cpubar 4,136 cpu1}${color}  ${color3}${cpubar 4,136 cpu2}${color}
+${font JetBrains Mono:size=9}${color1}Core 3${font}  ${color0}${cpu cpu3}%${color1}  Core 4${font}  ${color0}${cpu cpu4}%${color}
+${color3}${cpubar 4,136 cpu3}${color}  ${color3}${cpubar 4,136 cpu4}${color}
+
+${color2}${hr 1}${color}
+${font JetBrains Mono:size=9:bold}${color1}BATTERY${font}
+${color2}${hr 1}${color}
+
+${font JetBrains Mono:size=9}${color1}Charge${font}  ${color0}${battery_percent BAT0}%  ${color1}${battery_time BAT0}  ${battery BAT0}${color}
+${color3}${battery_bar 6,280 BAT0}${color}
+
+${color2}${hr 1}${color}
+${font JetBrains Mono:size=9:bold}${color1}NETWORK${font}
+${color2}${hr 1}${color}
+
+${font JetBrains Mono:size=9}${color1}UP${font}    ${color0}${upspeed wlan0}   ${color1}DOWN${font}  ${color0}${downspeed wlan0}${color}
+${font JetBrains Mono:size=9}${color1}IP${font}    ${color0}${addr wlan0}${color}
+
+${color2}${hr 1}${color}
+${font JetBrains Mono:size=9:bold}${color1}NOW PLAYING${font}
+${color2}${hr 1}${color}
+
+${font JetBrains Mono:size=9}${color0}${exec playerctl metadata title 2>/dev/null | head -c 34 || echo "Nothing playing"}${color}
+${font JetBrains Mono:size=8}${color1}${exec playerctl metadata artist 2>/dev/null | head -c 34 || echo "—"}${color}
 ${font JetBrains Mono:size=8}${color2}${exec playerctl status 2>/dev/null || echo "Stopped"}${color}
 
-${voffset 10}${font JetBrains Mono:size=8}${color2}uptime  ${color1}${uptime}${color}
+${color2}${hr 1}${color}
+${font JetBrains Mono:size=8}${color2}uptime ${color1}${uptime}${color}
 ]]
