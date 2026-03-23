@@ -4,17 +4,17 @@
 
 require 'cairo'
 
--- Color definitions (RGBA, 0-1 range)
+-- Color definitions (RGBA, 0-1 range) — vibrant purple/violet palette
 local COLOR = {
-    bg         = {0.04, 0.04, 0.04, 0.85},
-    bg_card    = {0.10, 0.10, 0.10, 0.90},
-    border     = {0.25, 0.25, 0.25, 0.60},
-    primary    = {0.93, 0.93, 0.93, 1.00},
-    secondary  = {0.60, 0.60, 0.60, 1.00},
-    dim        = {0.28, 0.28, 0.28, 1.00},
-    accent     = {0.80, 0.80, 0.80, 1.00},
-    bar_fill   = {0.75, 0.75, 0.75, 0.85},
-    bar_bg     = {0.18, 0.18, 0.18, 1.00},
+    bg         = {0.05, 0.03, 0.10, 0.88},  -- very dark purple-black
+    bg_card    = {0.11, 0.08, 0.18, 0.92},  -- dark purple card
+    border     = {0.45, 0.28, 0.72, 0.65},  -- glowing purple border
+    primary    = {0.97, 0.95, 1.00, 1.00},  -- near-white with lavender tint
+    secondary  = {0.68, 0.57, 0.83, 1.00},  -- soft lavender
+    dim        = {0.38, 0.27, 0.55, 1.00},  -- muted purple
+    accent     = {0.62, 0.31, 0.87, 1.00},  -- vivid violet
+    bar_fill   = {0.55, 0.18, 0.90, 0.90},  -- electric purple bar fill
+    bar_bg     = {0.16, 0.10, 0.26, 1.00},  -- dark purple bar background
 }
 
 -- Panel geometry
@@ -22,7 +22,7 @@ local PANEL = {
     x      = 1610,  -- right-side panel (screen_width - gap_x - widget_width = 1920-30-280)
     y      = 50,
     w      = 280,
-    h      = 620,
+    h      = 635,
     radius = 14,
 }
 
@@ -153,23 +153,23 @@ function draw_background(w, h)
 
     -- ── Minute-ring accent above the clock ───────────────────
     local min_pct = tonumber(os.date("%M")) / 60.0
-    draw_clock_ring(cr, px + pw / 2, py + 68, 46, min_pct)
+    draw_clock_ring(cr, px + pw / 2, py + 72, 46, min_pct)
 
     -- ── Section cards ────────────────────────────────────────
     -- (subtle inner cards for each data section)
     local sections = {
-        {y = py + 148, h = 96},   -- system stats
-        {y = py + 256, h = 76},   -- cpu cores
-        {y = py + 344, h = 58},   -- battery
-        {y = py + 414, h = 56},   -- network
-        {y = py + 482, h = 72},   -- now playing
+        {y = py + 160, h = 96},   -- system stats
+        {y = py + 268, h = 76},   -- cpu cores
+        {y = py + 356, h = 58},   -- battery
+        {y = py + 426, h = 56},   -- network
+        {y = py + 494, h = 72},   -- now playing
     }
     for _, s in ipairs(sections) do
         fill_rounded_rect(cr, px + 6, s.y, pw - 12, s.h, 8, COLOR.bg_card)
     end
 
     -- ── Glyph accent line (Nothing Phone signature element) ──
-    set_color(cr, COLOR.dim)
+    set_color(cr, COLOR.accent)
     cairo_set_line_width(cr, 1.5)
     cairo_move_to(cr, px + 20, py + ph - 30)
     cairo_line_to(cr, px + pw - 20, py + ph - 30)

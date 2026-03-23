@@ -8,7 +8,7 @@ conky.config = {
     gap_y = 50,
     minimum_width = 280,
     maximum_width = 280,
-    minimum_height = 600,
+    minimum_height = 615,
 
     -- Background and border
     own_window = true,
@@ -18,7 +18,7 @@ conky.config = {
     own_window_argb_visual = true,
     own_window_argb_value = 180,
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
-    own_window_colour = '0a0a0a',
+    own_window_colour = '0a0614',
 
     -- No border
     draw_borders = false,
@@ -37,15 +37,15 @@ conky.config = {
     font = 'JetBrains Mono:size=10',
     xftalpha = 1,
 
-    -- Text colors (monochromatic)
-    default_color = 'EEEEEE',
+    -- Text colors (vibrant purple/violet palette to complement dark wallpaper)
+    default_color = 'F0EAFF',
     default_shade_color = '000000',
     default_outline_color = '000000',
-    color0 = 'FFFFFF',  -- primary text
-    color1 = 'AAAAAA',  -- secondary text
-    color2 = '555555',  -- dim text / separators
-    color3 = 'CCCCCC',  -- accent / progress bars (fill)
-    color4 = '333333',  -- bar background reference
+    color0 = 'F8F4FF',  -- primary text (near-white lavender)
+    color1 = 'AD93D4',  -- secondary text (medium lavender)
+    color2 = '5E4580',  -- dim text / separators (muted purple)
+    color3 = '9D4EDD',  -- accent / progress bars (vibrant violet)
+    color4 = '28164A',  -- bar background reference (deep purple)
 
     -- Shading and outline
     draw_shades = false,
@@ -71,7 +71,7 @@ conky.config = {
 
 conky.text = [[
 ${lua_parse header}
-${font JetBrains Mono:size=36:bold}${color0}${time %H:%M}${font}
+${font JetBrains Mono:size=46:bold}${color0}${time %H:%M}${font}
 ${font JetBrains Mono:size=11}${color1}${time %A, %B %d}${font}
 ${color2}${hr 1}${color}
 
