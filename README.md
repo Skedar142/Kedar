@@ -1,26 +1,41 @@
 # Kedar — Nothing Phone Conky Widget
 
-A minimalist Conky desktop widget for Ubuntu/Debian-based Linux systems, inspired by the Nothing Phone's iconic Glyph Interface design language: monochromatic palette, rounded cards, dot accents, and a live minute-ring clock.
+A minimalist Conky desktop widget for Ubuntu/Debian-based Linux systems, inspired by the Nothing Phone's iconic Glyph Interface design language: pure-black panel, rounded cards, glyph dot accents, and a live 60-dot minute/second ring clock.
 
 ```
 ╔══════════════════════════╗
-║        ·  ·  ·  ·        ║  ← minute ring
-║                           ║
-║         14:27             ║  ← large clock
+║  •                     • ║  ← corner glyph dots
+║   · · ○ · · ● · · · ·   ║  ← 60-dot minute/second ring
+║                           ║       (● = current second)
+║         14:27             ║  ← large centered clock
 ║    Monday, March 23       ║
 ║ ─────────────────────── ║
-║  SYSTEM                   ║
-║  CPU   12%  ████░░░░░░░  ║
-║  MEM   48%  █████░░░░░░  ║
-║  DISK  61%  ██████░░░░░  ║
-║ ─────────────────────── ║
-║  BATTERY  87%  ████████░░ ║
-║ ─────────────────────── ║
-║  NOW PLAYING              ║
-║  Particles                ║
-║  Nothing (band)           ║
-║ ─────────────────────── ║
+║ ┌─────────────────────┐  ║
+║ │ SYSTEM              │  ║  ← section card
+║ │ CPU  12%  ████░░░░  │  ║
+║ │ MEM  48%  █████░░░  │  ║
+║ │ DISK 61%  ██████░░  │  ║
+║ └─────────────────────┘  ║
+║ ┌─────────────────────┐  ║
+║ │ CPU CORES           │  ║
+║ │ Core1 12%  Core2 8% │  ║
+║ │ Core3  5%  Core4 3% │  ║
+║ └─────────────────────┘  ║
+║ ┌─────────────────────┐  ║
+║ │ BATTERY  87%        │  ║
+║ └─────────────────────┘  ║
+║ ┌─────────────────────┐  ║
+║ │ NETWORK             │  ║
+║ │ UP 128K  DOWN 512K  │  ║
+║ └─────────────────────┘  ║
+║ ┌─────────────────────┐  ║
+║ │ NOW PLAYING         │  ║
+║ │ Particles           │  ║
+║ │ Nothing (band)      │  ║
+║ └─────────────────────┘  ║
 ║    uptime  3h 22m         ║
+║  ───────────────────────  ║  ← glyph accent line
+║         •   •   •         ║  ← USB-C glyph dots
 ╚══════════════════════════╝
 ```
 

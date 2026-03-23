@@ -94,21 +94,22 @@ install_config() {
         local rc="$CONKY_DIR/.conkyrc"
         local lua="$CONKY_DIR/conky_nothing.lua"
 
-        # Patch .conkyrc color values
-        sed -i "s/own_window_colour = '0a0a0a'/own_window_colour = 'F5F5F5'/"  "$rc"
-        sed -i "s/own_window_argb_value = 180/own_window_argb_value = 220/"    "$rc"
-        sed -i "s/default_color = 'EEEEEE'/default_color = '111111'/"          "$rc"
-        sed -i "s/color0 = 'FFFFFF'/color0 = '111111'/"                        "$rc"
-        sed -i "s/color1 = 'AAAAAA'/color1 = '555555'/"                        "$rc"
-        sed -i "s/color2 = '555555'/color2 = 'AAAAAA'/"                        "$rc"
-        sed -i "s/color3 = 'CCCCCC'/color3 = '333333'/"                        "$rc"
-        sed -i "s/color4 = '333333'/color4 = 'CCCCCC'/"                        "$rc"
+        # Patch .conkyrc color values (dark → light)
+        sed -i "s/own_window_colour = '000000'/own_window_colour = 'F5F5F5'/"   "$rc"
+        sed -i "s/default_color = 'F5F5F5'/default_color = '111111'/"           "$rc"
+        sed -i "s/color0 = 'F5F5F5'/color0 = '111111'/"                         "$rc"
+        sed -i "s/color1 = '888888'/color1 = '666666'/"                         "$rc"
+        sed -i "s/color2 = '333333'/color2 = 'BBBBBB'/"                         "$rc"
+        sed -i "s/color3 = 'E0E0E0'/color3 = '333333'/"                         "$rc"
+        sed -i "s/color4 = '222222'/color4 = 'CCCCCC'/"                         "$rc"
 
-        # Patch LUA background and bar colors
-        sed -i "s/{0\.04, 0\.04, 0\.04, 0\.85}/{0.96, 0.96, 0.96, 0.90}/"     "$lua"
-        sed -i "s/{0\.10, 0\.10, 0\.10, 0\.90}/{0.92, 0.92, 0.92, 0.95}/"     "$lua"
-        sed -i "s/{0\.75, 0\.75, 0\.75, 0\.85}/{0.20, 0.20, 0.20, 0.85}/"     "$lua"
-        sed -i "s/{0\.18, 0\.18, 0\.18, 1\.00}/{0.80, 0.80, 0.80, 1.00}/"     "$lua"
+        # Patch LUA background, card, and bar colors (dark → light)
+        sed -i "s/{0\.00, 0\.00, 0\.00, 0\.92}/{0.96, 0.96, 0.96, 0.93}/"      "$lua"
+        sed -i "s/{0\.08, 0\.08, 0\.08, 0\.95}/{0.92, 0.92, 0.92, 0.97}/"      "$lua"
+        sed -i "s/{0\.88, 0\.88, 0\.88, 0\.90}/{0.15, 0.15, 0.15, 0.90}/"      "$lua"
+        sed -i "s/{0\.14, 0\.14, 0\.14, 1\.00}/{0.80, 0.80, 0.80, 1.00}/"      "$lua"
+        sed -i "s/{0\.95, 0\.95, 0\.95, 1\.00}/{0.08, 0.08, 0.08, 1.00}/"      "$lua"
+        sed -i "s/{0\.12, 0\.12, 0\.12, 1\.00}/{0.84, 0.84, 0.84, 1.00}/"      "$lua"
 
         success "Light theme applied."
     else
