@@ -26,8 +26,9 @@ check_deps() {
     info "Checking dependencies…"
 
     local missing=()
-    command -v conky  &>/dev/null || missing+=(conky)
+    command -v conky   &>/dev/null || missing+=(conky)
     command -v fc-list &>/dev/null || missing+=(fontconfig)
+    command -v unzip   &>/dev/null || missing+=(unzip)
 
     if [ ${#missing[@]} -gt 0 ]; then
         info "Installing: ${missing[*]}"
@@ -54,18 +55,22 @@ install_fonts() {
     # Try downloading from GitHub releases
     local font_url="https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip"
     if command -v wget &>/dev/null; then
-        wget -q "$font_url" -O "$tmp_dir/jb.zip" \
+        if wget -q "$font_url" -O "$tmp_dir/jb.zip" \
             && unzip -q "$tmp_dir/jb.zip" "fonts/ttf/*.ttf" -d "$tmp_dir" \
             && mkdir -p "$font_dir" \
             && cp "$tmp_dir/fonts/ttf/"*.ttf "$font_dir/" \
-            && fc-cache -f "$font_dir" \
-            && success "JetBrains Mono installed." \
-            || warn "Font download failed. Conky will fall back to a system monospace font."
+            && fc-cache -f "$font_dir"; then
+            success "JetBrains Mono installed."
+        else
+            warn "Font download failed. Conky will fall back to a system monospace font."
+        fi
     else
         # Try apt as fallback
-        sudo apt-get install -y fonts-jetbrains-mono 2>/dev/null \
-            && success "JetBrains Mono installed via apt." \
-            || warn "Could not install JetBrains Mono. Falling back to system monospace."
+        if sudo apt-get install -y fonts-jetbrains-mono 2>/dev/null; then
+            success "JetBrains Mono installed via apt."
+        else
+            warn "Could not install JetBrains Mono. Falling back to system monospace."
+        fi
     fi
 
     rm -rf "$tmp_dir"
@@ -83,14 +88,31 @@ install_config() {
     # Themes directory
     cp -r "$SCRIPT_DIR/themes"          "$CONKY_DIR/themes"
 
-    # Apply selected theme overlay
-    local theme_file="$CONKY_DIR/themes/${THEME}.conf"
-    if [ -f "$theme_file" ]; then
-        info "Applying ${THEME} theme…"
-        cat "$theme_file" >> "$CONKY_DIR/.conkyrc"
-        success "Theme '${THEME}' applied."
+    # Apply selected theme via sed patches
+    if [ "$THEME" = "light" ]; then
+        info "Applying light theme patches…"
+        local rc="$CONKY_DIR/.conkyrc"
+        local lua="$CONKY_DIR/conky_nothing.lua"
+
+        # Patch .conkyrc color values
+        sed -i "s/own_window_colour = '0a0a0a'/own_window_colour = 'F5F5F5'/"  "$rc"
+        sed -i "s/own_window_argb_value = 180/own_window_argb_value = 220/"    "$rc"
+        sed -i "s/default_color = 'EEEEEE'/default_color = '111111'/"          "$rc"
+        sed -i "s/color0 = 'FFFFFF'/color0 = '111111'/"                        "$rc"
+        sed -i "s/color1 = 'AAAAAA'/color1 = '555555'/"                        "$rc"
+        sed -i "s/color2 = '555555'/color2 = 'AAAAAA'/"                        "$rc"
+        sed -i "s/color3 = 'CCCCCC'/color3 = '333333'/"                        "$rc"
+        sed -i "s/color4 = '333333'/color4 = 'CCCCCC'/"                        "$rc"
+
+        # Patch LUA background and bar colors
+        sed -i "s/{0\.04, 0\.04, 0\.04, 0\.85}/{0.96, 0.96, 0.96, 0.90}/"     "$lua"
+        sed -i "s/{0\.10, 0\.10, 0\.10, 0\.90}/{0.92, 0.92, 0.92, 0.95}/"     "$lua"
+        sed -i "s/{0\.75, 0\.75, 0\.75, 0\.85}/{0.20, 0.20, 0.20, 0.85}/"     "$lua"
+        sed -i "s/{0\.18, 0\.18, 0\.18, 1\.00}/{0.80, 0.80, 0.80, 1.00}/"     "$lua"
+
+        success "Light theme applied."
     else
-        warn "Theme file '$theme_file' not found. Using default settings."
+        success "Dark theme active (default)."
     fi
 
     success "Configuration files installed."
@@ -106,16 +128,22 @@ detect_screen() {
             | grep '\*' | awk '{print $1}' | cut -dx -f1 \
             | sort -n | tail -1)
         width=${width:-1920}
-    elif [ -f /sys/class/drm/card0-*/modes ]; then
-        width=$(head -1 /sys/class/drm/card0-*/modes | cut -dx -f1)
-        width=${width:-1920}
+    else
+        # Fallback: read DRM mode (avoid glob with -f)
+        local drm_mode
+        drm_mode=$(find /sys/class/drm -name 'modes' 2>/dev/null | head -1)
+        if [ -n "$drm_mode" ] && [ -f "$drm_mode" ]; then
+            width=$(head -1 "$drm_mode" | cut -dx -f1)
+            width=${width:-1920}
+        fi
     fi
 
     info "Screen width detected: ${width}px"
 
     # Patch PANEL.x in LUA script so the panel sits in the top-right corner
-    local panel_x=$(( width - 310 ))
-    sed -i "s/PANEL.x\s*=\s*[0-9]*/PANEL.x      = ${panel_x}/" \
+    # gap_x=30, maximum_width=280 → panel_x = screen_width - gap_x - maximum_width
+    local panel_x=$(( width - 30 - 280 ))
+    sed -i "s/PANEL\.x\s*=\s*[0-9]*/PANEL.x      = ${panel_x}/" \
         "$CONKY_DIR/conky_nothing.lua" \
         || true   # non-fatal
 

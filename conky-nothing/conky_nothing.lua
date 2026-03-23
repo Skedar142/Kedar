@@ -19,7 +19,7 @@ local COLOR = {
 
 -- Panel geometry
 local PANEL = {
-    x      = 1640,  -- right-side panel (adjust to screen width - 310)
+    x      = 1610,  -- right-side panel (screen_width - gap_x - widget_width = 1920-30-280)
     y      = 50,
     w      = 280,
     h      = 620,
@@ -118,6 +118,9 @@ end
 -- Main draw hook – called by Conky before text rendering
 -- ──────────────────────────────────────────────────────────────
 function draw_background(w, h)
+    -- Guard: conky_window is not yet available on the first update cycle
+    if conky_window == nil then return end
+
     -- Obtain the cairo surface from the Conky display
     local cs   = cairo_xlib_surface_create(
                      conky_window.display,

@@ -18,7 +18,7 @@ conky.config = {
     own_window_argb_visual = true,
     own_window_argb_value = 180,
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
-    own_window_colour = '0x0a0a0a',
+    own_window_colour = '0a0a0a',
 
     -- No border
     draw_borders = false,
@@ -36,7 +36,6 @@ conky.config = {
     use_xft = true,
     font = 'JetBrains Mono:size=10',
     xftalpha = 1,
-    override_utf8_locale = true,
 
     -- Text colors (monochromatic)
     default_color = 'EEEEEE',
@@ -45,8 +44,8 @@ conky.config = {
     color0 = 'FFFFFF',  -- primary text
     color1 = 'AAAAAA',  -- secondary text
     color2 = '555555',  -- dim text / separators
-    color3 = 'CCCCCC',  -- accent / progress bars
-    color4 = '333333',  -- bar background
+    color3 = 'CCCCCC',  -- accent / progress bars (fill)
+    color4 = '333333',  -- bar background reference
 
     -- Shading and outline
     draw_shades = false,
@@ -80,35 +79,35 @@ ${font JetBrains Mono:size=9:bold}${color1}SYSTEM${font}
 ${color2}${hr 1}${color}
 
 ${font JetBrains Mono:size=9}${color1}CPU${font}   ${color0}${cpu cpu0}%${color}
-${color4}${cpubar cpu0 6,280}${color}
+${color3}${cpubar 6,280 cpu0}${color}
 
 ${font JetBrains Mono:size=9}${color1}MEM${font}   ${color0}${memperc}%  ${color1}${mem} / ${memmax}${color}
-${color4}${membar 6,280}${color}
+${color3}${membar 6,280}${color}
 
 ${font JetBrains Mono:size=9}${color1}DISK${font}  ${color0}${fs_used_perc /}%  ${color1}${fs_used /} / ${fs_size /}${color}
-${color4}${fs_bar 6,280 /}${color}
+${color3}${fs_bar 6,280 /}${color}
 
 ${color2}${hr 1}${color}
 ${font JetBrains Mono:size=9:bold}${color1}CPU CORES${font}
 ${color2}${hr 1}${color}
 
 ${font JetBrains Mono:size=9}${color1}Core 1${font}  ${color0}${cpu cpu1}%${color1}  Core 2${font}  ${color0}${cpu cpu2}%${color}
-${color4}${cpubar cpu1 4,136}${color}  ${color4}${cpubar cpu2 4,136}${color}
+${color3}${cpubar 4,136 cpu1}${color}  ${color3}${cpubar 4,136 cpu2}${color}
 ${font JetBrains Mono:size=9}${color1}Core 3${font}  ${color0}${cpu cpu3}%${color1}  Core 4${font}  ${color0}${cpu cpu4}%${color}
-${color4}${cpubar cpu3 4,136}${color}  ${color4}${cpubar cpu4 4,136}${color}
+${color3}${cpubar 4,136 cpu3}${color}  ${color3}${cpubar 4,136 cpu4}${color}
 
 ${color2}${hr 1}${color}
 ${font JetBrains Mono:size=9:bold}${color1}BATTERY${font}
 ${color2}${hr 1}${color}
 
 ${font JetBrains Mono:size=9}${color1}Charge${font}  ${color0}${battery_percent BAT0}%  ${color1}${battery_time BAT0}  ${battery BAT0}${color}
-${color4}${battery_bar 6,280 BAT0}${color}
+${color3}${battery_bar 6,280 BAT0}${color}
 
 ${color2}${hr 1}${color}
 ${font JetBrains Mono:size=9:bold}${color1}NETWORK${font}
 ${color2}${hr 1}${color}
 
-${font JetBrains Mono:size=9}${color1}UP${font}    ${color0}${upspeed}   ${color1}DOWN${font}  ${color0}${downspeed}${color}
+${font JetBrains Mono:size=9}${color1}UP${font}    ${color0}${upspeed wlan0}   ${color1}DOWN${font}  ${color0}${downspeed wlan0}${color}
 ${font JetBrains Mono:size=9}${color1}IP${font}    ${color0}${addr wlan0}${color}
 
 ${color2}${hr 1}${color}
